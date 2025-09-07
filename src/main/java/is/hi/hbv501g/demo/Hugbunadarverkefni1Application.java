@@ -8,6 +8,7 @@ public class Hugbunadarverkefni1Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Hugbunadarverkefni1Application.class, args);
+        System.out.println("Jói ég ætla knúsa þig músin mín tihi <3");
     }
 
 }
