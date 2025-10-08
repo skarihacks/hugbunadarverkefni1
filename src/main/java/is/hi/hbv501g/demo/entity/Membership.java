@@ -80,9 +80,3 @@ public class Membership {
         this.joinedAt = joinedAt;
     }
 }
-
-public enum MembershipRole {
-    OWNER,
-    MODERATOR,
-    MEMBER
-}

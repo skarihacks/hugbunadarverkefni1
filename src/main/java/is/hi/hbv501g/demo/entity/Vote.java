@@ -86,14 +86,3 @@ public class Vote {
         this.createdAt = createdAt;
     }
 }
-
-public enum VoteTargetType {
-    POST,
-    COMMENT
-}
-
-public enum VoteValue {
-    UPVOTE,
-    DOWNVOTE,
-    NEUTRAL
-}

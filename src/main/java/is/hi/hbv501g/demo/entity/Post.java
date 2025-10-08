@@ -147,15 +147,3 @@ public class Post {
         this.createdAt = createdAt;
     }
 }
-
-public enum PostType {
-    TEXT,
-    LINK,
-    MEDIA
-}
-
-public enum PostState {
-    VISIBLE,
-    REMOVED_BY_MODERATOR,
-    HIDDEN
-}

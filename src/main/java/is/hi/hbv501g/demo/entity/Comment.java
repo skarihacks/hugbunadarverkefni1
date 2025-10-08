@@ -102,10 +102,3 @@ public class Comment {
         this.createdAt = createdAt;
     }
 }
-
-public enum CommentState {
-    VISIBLE,
-    DELETED_BY_AUTHOR,
-    REMOVED_BY_MODERATOR,
-    HIDDEN
-}

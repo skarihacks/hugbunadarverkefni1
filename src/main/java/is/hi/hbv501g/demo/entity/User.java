@@ -127,10 +127,3 @@ public class User {
     public List<Membership> getMemberships() { return memberships; }
     public void setMemberships(List<Membership> memberships) { this.memberships = memberships; }
 }
-
-public enum UserStatus {
-    PENDING,
-    ACTIVE,
-    SUSPENDED,
-    DELETED
-}
