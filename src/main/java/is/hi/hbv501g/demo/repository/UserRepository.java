@@ -2,6 +2,7 @@ package is.hi.hbv501g.demo.repository;
 
 import is.hi.hbv501g.demo.entity.User;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByUsernameIgnoreCase(String username);
 
     boolean existsByEmailIgnoreCase(String email);
+
+    @Query("select u from User u where lower(u.username) like lower(concat('%', :term, '%')) order by u.username asc")
+    List<User> searchByUsername(@Param("term") String term);
 
     @Transactional
     @Modifying(clearAutomatically = true)
