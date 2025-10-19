@@ -25,7 +25,7 @@ public class Vote {
     private UUID targetId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "vote_value", nullable = false)
     private VoteValue value = VoteValue.NEUTRAL;
 
     @Column(nullable = false, updatable = false)
