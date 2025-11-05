@@ -69,6 +69,27 @@ public class CommunityService {
         return membershipRepository.save(membership);
     }
 
+    @Transactional
+    public void leaveCommunity(User user, String communityName) {
+        if (!StringUtils.hasText(communityName)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Community name is required");
+        }
+
+        Community community = communityRepository
+                .findByNameIgnoreCase(communityName.trim())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Community not found"));
+
+        Membership membership = membershipRepository
+                .findByUserAndCommunity(user, community)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are not a member of this community"));
+
+        if (membership.getRole() == MembershipRole.OWNER) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Owners cannot leave their own community");
+        }
+
+        membershipRepository.delete(membership);
+    }
+
     @Transactional(readOnly = true)
     public List<Community> listCommunities(String query) {
         if (!StringUtils.hasText(query)) {

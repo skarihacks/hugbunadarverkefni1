@@ -27,6 +27,11 @@ public class Comment {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
+
     @Column(nullable = false, length = 2000)
     private String body;
 
@@ -42,10 +47,12 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Post post, User author, String body) {
+    public Comment(Post post, User author, String body, Comment parentComment) {
         this.post = post;
         this.author = author;
         this.body = body;
+        this.parentComment = parentComment;
+        this.score = 0;
         this.state = CommentState.VISIBLE;
         this.createdAt = LocalDateTime.now();
     }
@@ -69,6 +76,15 @@ public class Comment {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+    public Comment getParentComment() {
+         return parentComment; 
+    }
+    
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment; 
+    }
+
 
     public String getBody() {
         return body;
