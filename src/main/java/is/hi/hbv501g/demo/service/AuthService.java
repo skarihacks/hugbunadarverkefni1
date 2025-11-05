@@ -46,8 +46,8 @@ public class AuthService {
         if (!StringUtils.hasText(email) || !email.contains("@")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email must be provided");
         }
-        if (password == null || password.length() < 8) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters");
+        if (password == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be provided");
         }
 
         if (userRepository.existsByUsernameIgnoreCase(username)) {
