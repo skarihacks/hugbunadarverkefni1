@@ -48,6 +48,15 @@ public class CommunityController {
         return ResponseEntity.ok(MembershipResponse.from(membership));
     }
 
+    @PostMapping("/leave")
+    public ResponseEntity<Void> leaveCommunity(
+            @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
+            @RequestBody CommunityRequests.JoinCommunityRequest request) {
+        User user = authService.requireUser(sessionId);
+        communityService.leaveCommunity(user, request.getCommunityName());
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<CommunityResponse>> listCommunities(
             @RequestParam(value = "q", required = false) String query) {

@@ -16,6 +16,8 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
 
     List<Comment> findByPost_IdAndStateOrderByCreatedAtAsc(UUID postId, CommentState state);
 
+    List<Comment> findByAuthor_IdAndStateOrderByCreatedAtDesc(UUID authorId, CommentState state);
+
     long countByPost_IdAndState(UUID postId, CommentState state);
 
     @Transactional

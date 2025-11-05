@@ -22,6 +22,8 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
 
     Page<Post> findByAuthor_IdAndState(UUID authorId, PostState state, Pageable pageable);
 
+    List<Post> findByAuthor_IdAndStateOrderByCreatedAtDesc(UUID authorId, PostState state);
+
     @Query("select p from Post p where p.state = :state and lower(p.title) like lower(concat('%', :term, '%'))")
     Page<Post> searchByTitle(@Param("term") String term, @Param("state") PostState state, Pageable pageable);
 

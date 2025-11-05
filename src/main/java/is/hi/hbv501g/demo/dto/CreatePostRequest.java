@@ -9,6 +9,7 @@ public class CreatePostRequest {
     private PostType type = PostType.TEXT;
     private String body;
     private String url;
+    private String mediaBase64;
 
     public String getCommunityName() {
         return communityName;
@@ -52,5 +53,13 @@ public class CreatePostRequest {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getMediaBase64() {
+        return mediaBase64;
+    }
+
+    public void setMediaBase64(String mediaBase64) {
+        this.mediaBase64 = mediaBase64;
     }
 }

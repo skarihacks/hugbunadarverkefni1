@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Lob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -40,8 +41,8 @@ public class Post {
     @Column(length = 1024)
     private String url;
 
-    @Column(length = 1024)
-    private String mediaUrl;
+    @Lob
+    private byte[] mediaData;
 
     private int score = 0;
 
@@ -115,12 +116,12 @@ public class Post {
         this.url = url;
     }
 
-    public String getMediaUrl() {
-        return mediaUrl;
+    public byte[] getMediaData() {
+        return mediaData;
     }
 
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
+    public void setMediaData(byte[] mediaData) {
+        this.mediaData = mediaData;
     }
 
     public int getScore() {
