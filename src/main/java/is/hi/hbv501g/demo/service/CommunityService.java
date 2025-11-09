@@ -104,4 +104,14 @@ public class CommunityService {
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Community not found"));
     }
+
+    @Transactional(readOnly = true)
+    public Community getByName(String name) {
+        if (!StringUtils.hasText(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Community name is required");
+        }
+        return communityRepository
+                .findByNameIgnoreCase(name.trim())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Community not found"));
+    }
 }

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -64,6 +65,12 @@ public class CommunityController {
                 .map(CommunityResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(communities);
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<CommunityResponse> getCommunity(@PathVariable String name) {
+        Community community = communityService.getByName(name);
+        return ResponseEntity.ok(CommunityResponse.from(community));
     }
 
     public record CommunityResponse(String id, String name, String description) {
