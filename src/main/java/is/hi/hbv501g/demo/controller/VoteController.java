@@ -28,6 +28,7 @@ public class VoteController {
         this.authService = authService;
     }
 
+    //post request for recording a vote
     @PostMapping
     public ResponseEntity<VoteView> recordVote(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId, @RequestBody VoteRequest request) {
@@ -36,12 +37,14 @@ public class VoteController {
         return ResponseEntity.ok(VoteView.from(vote));
     }
 
+    //get request for retrieving a vote by id
     @GetMapping("/{id}")
     public ResponseEntity<VoteView> getVote(@PathVariable UUID id) {
         Vote vote = voteService.getVote(id);
         return ResponseEntity.ok(VoteView.from(vote));
     }
 
+    //get request for retrieving votes for a post
     @GetMapping("/posts/{postId}")
     public ResponseEntity<List<VoteView>> listPostVotes(@PathVariable UUID postId) {
         List<VoteView> votes = voteService.getVotesByTarget(postId, VoteTargetType.POST).stream()
@@ -50,6 +53,7 @@ public class VoteController {
         return ResponseEntity.ok(votes);
     }
 
+    //response body for vote information
     public record VoteView(String id, String targetType, String targetId, String value) {
 
         static VoteView from(Vote vote) {

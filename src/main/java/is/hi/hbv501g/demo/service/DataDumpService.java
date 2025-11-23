@@ -40,6 +40,7 @@ public class DataDumpService {
         this.voteRepository = voteRepository;
     }
 
+    // Dump all users, communities, memberships, posts, comments and votes
     public DumpResponse dumpAll() {
         List<UserDump> users = userRepository.findAll().stream()
                 .map(user -> new UserDump(

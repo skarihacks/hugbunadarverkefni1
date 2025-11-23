@@ -17,6 +17,7 @@ public class DataDumpController {
         this.dataDumpService = dataDumpService;
     }
 
+    //get request for retrieving a full data dump
     @GetMapping
     public ResponseEntity<DumpResponse> dump() {
         return ResponseEntity.ok(dataDumpService.dumpAll());

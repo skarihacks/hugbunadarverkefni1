@@ -28,6 +28,7 @@ public class ModerationService {
         this.commentRepository = commentRepository;
     }
 
+    // Remove a post as a moderator, marking it removed
     @Transactional
     public void removePost(UUID userId, UUID postId) {
         Post post = postRepository
@@ -42,6 +43,7 @@ public class ModerationService {
         postRepository.save(post);
     }
 
+    // Remove a comment as a moderator, marking it removed
     @Transactional
     public void removeComment(UUID userId, UUID commentId) {
         Comment comment = commentRepository

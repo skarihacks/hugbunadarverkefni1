@@ -15,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
+    // Find a user by username (case-insensitive)
     Optional<User> findByUsernameIgnoreCase(String username);
 
+    // Find a user by email (case-insensitive)
     Optional<User> findByEmailIgnoreCase(String email);
 
+    // Find a user by either username or email (case-insensitive)
     @Query("""
             select u
             from User u
@@ -26,13 +29,17 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             """)
     Optional<User> findByUsernameOrEmail(@Param("identifier") String identifier);
 
+    // Check if a user exists by username (case-insensitive)
     boolean existsByUsernameIgnoreCase(String username);
 
+    // Check if a user exists by email (case-insensitive)
     boolean existsByEmailIgnoreCase(String email);
 
+    // Search users by username containing a term (case-insensitive), ordered by username
     @Query("select u from User u where lower(u.username) like lower(concat('%', :term, '%')) order by u.username asc")
     List<User> searchByUsername(@Param("term") String term);
 
+    // Update the login failure state for a user
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("""
@@ -46,12 +53,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             @Param("attempts") int attempts,
             @Param("lockedUntil") LocalDateTime lockedUntil);
 
+    // Record a successful login and reset failure state for a user
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("""
             update User u
             set u.failedLoginAttempts = 0,
-                u.accountLockedUntil = null,
+            u.accountLockedUntil = null,
                 u.lastLoginAt = :loginTime,
                 u.updatedAt = :loginTime
             where u.id = :id

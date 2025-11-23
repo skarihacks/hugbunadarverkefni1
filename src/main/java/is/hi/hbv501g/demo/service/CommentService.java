@@ -27,6 +27,7 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
+    // Create a new comment (optionally as a reply) on a post
     @Transactional
     public Comment createComment(User author, UUID postId, CreateCommentRequest request) {
         String body = request.getBody() == null ? "" : request.getBody().trim();
@@ -52,33 +53,40 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    // Get a single comment by ID or throw if not found
     public Comment getComment(UUID id) {
         return commentRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
     }
 
+    // Get all comments (any state)
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
     }
 
+    // Get visible comments for a post ordered by creation time
     public List<Comment> getCommentsByPostId(UUID postId) {
         return commentRepository.findByPost_IdAndStateOrderByCreatedAtAsc(postId, CommentState.VISIBLE);
     }
 
+    // Get recent visible comments by author
     public List<Comment> getCommentsByAuthor(UUID authorId) {
         return commentRepository.findByAuthor_IdAndStateOrderByCreatedAtDesc(authorId, CommentState.VISIBLE);
     }
 
+    // Count visible comments for a post
     public long countVisibleCommentsByPost(UUID postId) {
         return commentRepository.countByPost_IdAndState(postId, CommentState.VISIBLE);
     }
 
+    // Update the score of a comment by a delta
     @Transactional
     public void updateScore(UUID commentId, int delta) {
         commentRepository.updateScore(commentId, delta);
     }
 
+    // Update a comment body, validating author and state
     @Transactional
     public Comment updateComment(UUID commentId, UUID userId, UpdateCommentRequest request) {
         Comment comment = getComment(commentId);
@@ -96,6 +104,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    // Soft-delete a comment by marking it deleted by the author
     @Transactional
     public void deleteComment(UUID commentId, UUID userId) {
         Comment comment = getComment(commentId);

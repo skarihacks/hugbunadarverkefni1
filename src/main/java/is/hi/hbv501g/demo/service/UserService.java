@@ -27,16 +27,19 @@ public class UserService {
         this.commentRepository = commentRepository;
     }
 
+    // Get a user by username or throw if not found
     public User getByUsername(String username) {
         return userRepository
                 .findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
+    // Get recent visible posts for a user
     public List<Post> getRecentPosts(UUID userId) {
         return postRepository.findByAuthor_IdAndStateOrderByCreatedAtDesc(userId, PostState.VISIBLE);
     }
 
+    // Get recent visible comments for a user
     public List<Comment> getRecentComments(UUID userId) {
         return commentRepository.findByAuthor_IdAndStateOrderByCreatedAtDesc(userId, CommentState.VISIBLE);
     }

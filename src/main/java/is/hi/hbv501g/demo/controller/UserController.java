@@ -23,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    //get request for retrieving user profile by username
     @GetMapping("/{username}")
     public ResponseEntity<UserProfile> profile(@PathVariable String username) {
         User user = userService.getByUsername(username.trim());
@@ -48,6 +49,7 @@ public class UserController {
         return ResponseEntity.ok(body);
     }
 
+    //response body for user profile information
     public record UserProfile(
             String id,
             String username,
@@ -58,6 +60,7 @@ public class UserController {
             List<PostSummary> posts,
             List<CommentResponse> comments) {}
 
+    //summary information about user posts
     public record PostSummary(
             String id,
             String community,

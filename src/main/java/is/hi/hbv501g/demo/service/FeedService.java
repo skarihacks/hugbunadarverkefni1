@@ -23,6 +23,7 @@ public class FeedService {
         this.membershipRepository = membershipRepository;
     }
 
+    // List public feed posts with optional sorting and community filter
     public List<Post> listFeed(String sort, String community) {
         String normalizedSort = sort == null ? "new" : sort.toLowerCase(Locale.ROOT);
         String filterCommunity = community == null ? null : community.trim().toLowerCase(Locale.ROOT);
@@ -37,6 +38,7 @@ public class FeedService {
                 .toList();
     }
 
+    // List feed posts from communities the user is a member of
     public List<Post> listMemberFeed(String sort, UUID userId) {
         String normalizedSort = sort == null ? "new" : sort.toLowerCase(Locale.ROOT);
         Comparator<Post> comparator = buildComparator(normalizedSort);

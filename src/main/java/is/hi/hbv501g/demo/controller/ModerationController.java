@@ -22,6 +22,7 @@ public class ModerationController {
         this.authService = authService;
     }
 
+    //post request for removing a post
     @PostMapping("/posts/{postId}/remove")
     public ResponseEntity<Void> removePost(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId, @PathVariable UUID postId) {
@@ -30,6 +31,7 @@ public class ModerationController {
         return ResponseEntity.noContent().build();
     }
 
+    //post request for removing a comment
     @PostMapping("/comments/{commentId}/remove")
     public ResponseEntity<Void> removeComment(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId, @PathVariable UUID commentId) {

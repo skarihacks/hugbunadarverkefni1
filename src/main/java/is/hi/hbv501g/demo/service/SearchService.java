@@ -23,11 +23,13 @@ public class SearchService {
         this.userRepository = userRepository;
     }
 
+    // Search posts by term in title or body
     public List<Post> searchPosts(String term) {
         String safeTerm = term == null ? "" : term.trim();
         return postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(safeTerm, safeTerm);
     }
 
+    // Search communities by name, or list all if term is empty
     public List<Community> searchCommunities(String term) {
         if (term == null || term.trim().isEmpty()) {
             return communityRepository.findAll();
@@ -35,6 +37,7 @@ public class SearchService {
         return communityRepository.searchByName(term.trim());
     }
 
+    // Search users by username, or list all if term is empty
     public List<User> searchUsers(String term) {
         if (term == null || term.trim().isEmpty()) {
             return userRepository.findAll();

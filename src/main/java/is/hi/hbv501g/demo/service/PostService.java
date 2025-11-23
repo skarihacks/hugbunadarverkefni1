@@ -29,6 +29,7 @@ public class PostService {
         this.communityRepository = communityRepository;
     }
 
+    // Create a new post with validation for type, body and media
     @Transactional
     public Post createPost(User author, CreatePostRequest request) {
         String communityName = request.getCommunityName() == null ? "" : request.getCommunityName().trim();
@@ -70,6 +71,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    // Get a single post by ID or throw if not found
     @Transactional(readOnly = true)
     public Post getPost(UUID id) {
         return postRepository
@@ -77,17 +79,20 @@ public class PostService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
     }
 
+    // Search visible posts by term in title or body
     @Transactional(readOnly = true)
     public List<Post> searchByTerm(String term) {
         String safeTerm = term == null ? "" : term.trim();
         return postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(safeTerm, safeTerm);
     }
 
+    // Get recent visible posts by author
     @Transactional(readOnly = true)
     public List<Post> getPostsByAuthor(UUID authorId) {
         return postRepository.findByAuthor_IdAndStateOrderByCreatedAtDesc(authorId, PostState.VISIBLE);
     }
 
+    // Get all visible posts
     @Transactional(readOnly = true)
     public List<Post> getVisiblePosts() {
         return postRepository.findAll().stream()
@@ -95,6 +100,7 @@ public class PostService {
                 .toList();
     }
 
+    // Update a post's title, body and media, validating author and state
     @Transactional
     public Post updatePost(UUID postId, UUID userId, UpdatePostRequest request) {
         Post post = getPost(postId);
@@ -131,6 +137,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    // Soft-delete a post by marking it hidden
     @Transactional
     public void deletePost(UUID postId, UUID userId) {
         Post post = getPost(postId);

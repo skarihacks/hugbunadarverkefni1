@@ -31,6 +31,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
+    // Register a new user with validation and password hashing
     @Transactional
     public User register(RegisterRequest request) {
         String username = normalize(request.getUsername());
@@ -63,6 +64,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
+    // Authenticate a user and create a new session
     @Transactional(readOnly = true)
     public Session login(LoginRequest request) {
         String identifier = normalize(request.getUsernameOrEmail());
@@ -89,6 +91,7 @@ public class AuthService {
         return session;
     }
 
+    // Log out a user by removing their session
     public void logout(String sessionId) {
         if (sessionId == null || sessionId.isBlank()) {
             return;
@@ -96,6 +99,7 @@ public class AuthService {
         sessions.remove(sessionId);
     }
 
+    // Retrieve a valid session or throw if missing/invalid
     public Session requireSession(String sessionId) {
         Session session = sessions.get(sessionId);
         if (session == null) {
@@ -104,6 +108,7 @@ public class AuthService {
         return session;
     }
 
+    // Retrieve the user associated with a session or throw if not found
     public User requireUser(String sessionId) {
         Session session = requireSession(sessionId);
         return userRepository

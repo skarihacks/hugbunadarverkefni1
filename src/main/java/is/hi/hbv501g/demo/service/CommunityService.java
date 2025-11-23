@@ -26,6 +26,7 @@ public class CommunityService {
         this.membershipRepository = membershipRepository;
     }
 
+    // Create a new community and add the creator as owner
     @Transactional
     public Community createCommunity(User creator, CommunityRequests.CreateCommunityRequest request) {
         String name = request.getName() == null ? "" : request.getName().trim();
@@ -51,6 +52,7 @@ public class CommunityService {
         return saved;
     }
 
+    // Join a community, creating membership if it does not exist
     @Transactional
     public Membership joinCommunity(User user, String communityName) {
         if (!StringUtils.hasText(communityName)) {
@@ -69,6 +71,7 @@ public class CommunityService {
         return membershipRepository.save(membership);
     }
 
+    // Leave a community, preventing owners from leaving their own community
     @Transactional
     public void leaveCommunity(User user, String communityName) {
         if (!StringUtils.hasText(communityName)) {
@@ -90,6 +93,7 @@ public class CommunityService {
         membershipRepository.delete(membership);
     }
 
+    // List communities, optionally filtered by search query
     @Transactional(readOnly = true)
     public List<Community> listCommunities(String query) {
         if (!StringUtils.hasText(query)) {
@@ -98,6 +102,7 @@ public class CommunityService {
         return communityRepository.searchByName(query.trim());
     }
 
+    // Get a single community by ID or throw if not found
     @Transactional(readOnly = true)
     public Community getById(UUID id) {
         return communityRepository

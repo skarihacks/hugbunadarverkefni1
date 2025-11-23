@@ -31,6 +31,7 @@ public class CommunityController {
         this.authService = authService;
     }
 
+    //post request for creating a new community
     @PostMapping
     public ResponseEntity<CommunityResponse> createCommunity(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -40,6 +41,7 @@ public class CommunityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(CommunityResponse.from(community));
     }
 
+    //post request for joining a community
     @PostMapping("/join")
     public ResponseEntity<MembershipResponse> joinCommunity(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -49,6 +51,7 @@ public class CommunityController {
         return ResponseEntity.ok(MembershipResponse.from(membership));
     }
 
+    //post request for leaving a community
     @PostMapping("/leave")
     public ResponseEntity<Void> leaveCommunity(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -58,6 +61,7 @@ public class CommunityController {
         return ResponseEntity.noContent().build();
     }
 
+    //get request for listing communities
     @GetMapping
     public ResponseEntity<List<CommunityResponse>> listCommunities(
             @RequestParam(value = "q", required = false) String query) {
@@ -73,6 +77,9 @@ public class CommunityController {
         return ResponseEntity.ok(CommunityResponse.from(community));
     }
 
+
+    //response body for community information
+
     public record CommunityResponse(String id, String name, String description) {
 
         static CommunityResponse from(Community community) {
@@ -81,6 +88,7 @@ public class CommunityController {
         }
     }
 
+    //response body for membership information
     public record MembershipResponse(String communityId, String userId, String joinedAt) {
 
         static MembershipResponse from(Membership membership) {

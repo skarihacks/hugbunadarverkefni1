@@ -26,6 +26,7 @@ public class FeedController {
         this.authService = authService;
     }
 
+    //get request for retrieving the public feed
     @GetMapping
     public ResponseEntity<List<PostView>> feed(
             @RequestParam(value = "sort", required = false) String sort,
@@ -36,6 +37,7 @@ public class FeedController {
         return ResponseEntity.ok(posts);
     }
 
+    //get request for retrieving feed from user memberships
     @GetMapping("/memberships")
     public ResponseEntity<List<PostView>> membershipFeed(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -47,6 +49,7 @@ public class FeedController {
         return ResponseEntity.ok(posts);
     }
 
+    //response body for post information in feed
     public record PostView(
             String id,
             String community,

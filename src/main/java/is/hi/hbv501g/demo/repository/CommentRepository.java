@@ -14,11 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, UUID> {
 
+    // Find comments by post ID and state, ordered by creation date ascending
+
     List<Comment> findByPost_IdAndStateOrderByCreatedAtAsc(UUID postId, CommentState state);
+
+    // Find comments by author ID and state, ordered by creation date descending
 
     List<Comment> findByAuthor_IdAndStateOrderByCreatedAtDesc(UUID authorId, CommentState state);
 
+    // Count comments by post ID and state
+
     long countByPost_IdAndState(UUID postId, CommentState state);
+
+    // Update the score of a comment by a given delta
 
     @Transactional
     @Modifying(clearAutomatically = true)

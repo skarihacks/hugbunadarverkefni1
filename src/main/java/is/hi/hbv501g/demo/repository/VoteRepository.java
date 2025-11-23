@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, UUID> {
 
+    // Find a vote by user ID and target (ID and type)
     Optional<Vote> findByUser_IdAndTargetIdAndTargetType(UUID userId, UUID targetId, VoteTargetType targetType);
 
+    // Find all votes for a given target (ID and type)
     List<Vote> findAllByTargetIdAndTargetType(UUID targetId, VoteTargetType targetType);
 }

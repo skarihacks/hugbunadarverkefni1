@@ -22,6 +22,7 @@ public class SearchController {
         this.searchService = searchService;
     }
 
+    //get request for searching posts, communities and users
     @GetMapping
     public ResponseEntity<SearchResponse> search(@RequestParam(value = "q", required = false) String term) {
         List<PostResult> posts = searchService.searchPosts(term).stream()
@@ -37,9 +38,11 @@ public class SearchController {
         return ResponseEntity.ok(new SearchResponse(posts, communities, users));
     }
 
+    //response body for search results
     public record SearchResponse(
             List<PostResult> posts, List<CommunityResult> communities, List<UserResult> users) {}
 
+    //search result information for a post
     public record PostResult(String id, String communityName, String title) {
 
         static PostResult from(Post post) {
@@ -47,6 +50,7 @@ public class SearchController {
         }
     }
 
+    //search result information for a community
     public record CommunityResult(String id, String name) {
 
         static CommunityResult from(Community community) {
@@ -54,6 +58,7 @@ public class SearchController {
         }
     }
 
+    //search result information for a user
     public record UserResult(String id, String username) {
 
         static UserResult from(User user) {

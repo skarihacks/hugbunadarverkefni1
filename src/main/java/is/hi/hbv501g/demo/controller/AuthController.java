@@ -24,12 +24,14 @@ public class AuthController {
         this.authService = authService;
     }
 
+    //get request for registering a new user
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody RegisterRequest request) {
         User user = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.from(user));
     }
 
+    //post request for logging in a user
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         var session = authService.login(request);
@@ -39,7 +41,7 @@ public class AuthController {
                 .header(SESSION_HEADER, session.token())
                 .body(body);
     }
-
+    //post request for logging out a user
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
             @RequestHeader(value = SESSION_HEADER, required = false) String sessionId) {
@@ -47,8 +49,11 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    //response for a successful login
     public record LoginResponse(String sessionId, UserResponse user) {}
 
+
+    //response for user information
     public record UserResponse(String id, String username, String email) {
 
         static UserResponse from(User user) {

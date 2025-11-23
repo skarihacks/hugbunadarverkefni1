@@ -12,10 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommunityRepository extends JpaRepository<Community, UUID> {
 
+    // Find a community by name (case-insensitive)
     Optional<Community> findByNameIgnoreCase(String name);
 
+    // Check if a community exists by name (case-insensitive)
     boolean existsByNameIgnoreCase(String name);
 
+    // Search communities by name containing a term (case-insensitive), ordered by name
     @Query("select c from Community c where lower(c.name) like lower(concat('%', :term, '%')) order by c.name asc")
     List<Community> searchByName(@Param("term") String term);
 }

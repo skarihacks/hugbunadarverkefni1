@@ -33,6 +33,8 @@ public class CommentController {
         this.authService = authService;
     }
 
+
+    //post request for creating a new comment
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentResponse> createComment(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -43,6 +45,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(CommentResponse.from(comment));
     }
 
+    //put request for updating a comment
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentResponse> updateComment(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -53,6 +56,7 @@ public class CommentController {
         return ResponseEntity.ok(CommentResponse.from(updated));
     }
 
+    //delete request for deleting a comment
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<Void> deleteComment(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId, @PathVariable UUID id) {
@@ -60,13 +64,15 @@ public class CommentController {
         commentService.deleteComment(id, userId);
         return ResponseEntity.noContent().build();
     }
-
+    
+    //get request for retrieving a comment by id
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentResponse> getComment(@PathVariable UUID id) {
         Comment comment = commentService.getComment(id);
         return ResponseEntity.ok(CommentResponse.from(comment));
     }
 
+    //get request for retrieving all comments
     @GetMapping("/comments")
     public ResponseEntity<List<CommentResponse>> getAllComments() {
         List<CommentResponse> response = commentService.getAllComments().stream()
@@ -74,7 +80,7 @@ public class CommentController {
                 .toList();
         return ResponseEntity.ok(response);
     }
-
+    //get request for retrieving comments by post id
     @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<List<CommentResponse>> getCommentsByPost(@PathVariable UUID postId) {
         List<CommentResponse> response = commentService.getCommentsByPostId(postId).stream()

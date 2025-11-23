@@ -37,6 +37,7 @@ public class VoteService {
         this.userRepository = userRepository;
     }
 
+    // Record or update a vote on a post or comment and adjust scores
     @Transactional
     public Vote recordVote(UUID userId, VoteRequest request) {
         if (request.getTargetId() == null || request.getTargetType() == null) {
@@ -74,6 +75,7 @@ public class VoteService {
         return voteRepository.save(vote);
     }
 
+    // Get a single vote by ID or throw if not found
     @Transactional(readOnly = true)
     public Vote getVote(UUID id) {
         return voteRepository
@@ -81,6 +83,7 @@ public class VoteService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vote not found"));
     }
 
+    // Get all votes for a specific target
     @Transactional(readOnly = true)
     public List<Vote> getVotesByTarget(UUID targetId, VoteTargetType type) {
         return voteRepository.findAllByTargetIdAndTargetType(targetId, type);

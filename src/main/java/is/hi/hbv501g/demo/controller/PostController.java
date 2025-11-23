@@ -32,6 +32,7 @@ public class PostController {
         this.authService = authService;
     }
 
+    //post request for creating a new post
     @PostMapping
     public ResponseEntity<PostResponse> createPost(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -41,6 +42,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(PostResponse.from(post));
     }
 
+    //put request for updating a post
     @PutMapping("/{id}")
     public ResponseEntity<PostResponse> updatePost(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId,
@@ -51,6 +53,7 @@ public class PostController {
         return ResponseEntity.ok(PostResponse.from(updated));
     }
 
+    //delete request for deleting a post
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(
             @RequestHeader(AuthController.SESSION_HEADER) String sessionId, @PathVariable UUID id) {
@@ -59,12 +62,14 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    //get request for retrieving a post by id
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> getPost(@PathVariable UUID id) {
         Post post = postService.getPost(id);
         return ResponseEntity.ok(PostResponse.from(post));
     }
 
+    //response body for post information
     public record PostResponse(
             String id,
             String communityId,
