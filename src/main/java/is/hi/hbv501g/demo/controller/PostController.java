@@ -72,6 +72,8 @@ public class PostController {
     //response body for post information
     public record PostResponse(
             String id,
+            String authorId,
+            String authorUsername,
             String communityId,
             String communityName,
             String title,
@@ -88,6 +90,8 @@ public class PostController {
             }
             return new PostResponse(
                     post.getId().toString(),
+                    post.getAuthor().getId().toString(),
+                    post.getAuthor().getUsername(),
                     post.getCommunity().getId().toString(),
                     post.getCommunity().getName(),
                     post.getTitle(),
