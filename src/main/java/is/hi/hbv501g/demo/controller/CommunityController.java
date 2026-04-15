@@ -71,6 +71,17 @@ public class CommunityController {
         return ResponseEntity.ok(communities);
     }
 
+    //get request for listing communities joined by the authenticated user
+    @GetMapping("/joined")
+    public ResponseEntity<List<CommunityResponse>> listJoinedCommunities(
+            @RequestHeader(AuthController.SESSION_HEADER) String sessionId) {
+        User user = authService.requireUser(sessionId);
+        List<CommunityResponse> communities = communityService.listJoinedCommunities(user).stream()
+                .map(CommunityResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(communities);
+    }
+
     @GetMapping("/{name}")
     public ResponseEntity<CommunityResponse> getCommunity(@PathVariable String name) {
         Community community = communityService.getByName(name);

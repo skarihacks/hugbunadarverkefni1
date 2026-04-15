@@ -102,6 +102,15 @@ public class CommunityService {
         return communityRepository.searchByName(query.trim());
     }
 
+    // List communities the user is a member of
+    @Transactional(readOnly = true)
+    public List<Community> listJoinedCommunities(User user) {
+        return membershipRepository.findByUser_Id(user.getId()).stream()
+                .map(Membership::getCommunity)
+                .sorted((first, second) -> first.getName().compareToIgnoreCase(second.getName()))
+                .toList();
+    }
+
     // Get a single community by ID or throw if not found
     @Transactional(readOnly = true)
     public Community getById(UUID id) {
