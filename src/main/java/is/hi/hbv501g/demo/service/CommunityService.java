@@ -111,6 +111,17 @@ public class CommunityService {
                 .toList();
     }
 
+    // List communities where the user is an OWNER or MODERATOR
+    @Transactional(readOnly = true)
+    public List<Community> listModeratedCommunities(User user) {
+        return membershipRepository
+                .findByUser_IdAndRoleIn(user.getId(), List.of(MembershipRole.OWNER, MembershipRole.MODERATOR))
+                .stream()
+                .map(Membership::getCommunity)
+                .sorted((first, second) -> first.getName().compareToIgnoreCase(second.getName()))
+                .toList();
+    }
+
     // Get a single community by ID or throw if not found
     @Transactional(readOnly = true)
     public Community getById(UUID id) {

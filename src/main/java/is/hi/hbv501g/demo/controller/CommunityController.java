@@ -82,6 +82,17 @@ public class CommunityController {
         return ResponseEntity.ok(communities);
     }
 
+    //get request for listing communities moderated by the authenticated user (OWNER or MODERATOR)
+    @GetMapping("/moderated")
+    public ResponseEntity<List<CommunityResponse>> listModeratedCommunities(
+            @RequestHeader(AuthController.SESSION_HEADER) String sessionId) {
+        User user = authService.requireUser(sessionId);
+        List<CommunityResponse> communities = communityService.listModeratedCommunities(user).stream()
+                .map(CommunityResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(communities);
+    }
+
     @GetMapping("/{name}")
     public ResponseEntity<CommunityResponse> getCommunity(@PathVariable String name) {
         Community community = communityService.getByName(name);

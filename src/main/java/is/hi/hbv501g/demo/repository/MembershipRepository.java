@@ -2,6 +2,7 @@ package is.hi.hbv501g.demo.repository;
 
 import is.hi.hbv501g.demo.entity.Community;
 import is.hi.hbv501g.demo.entity.Membership;
+import is.hi.hbv501g.demo.entity.MembershipRole;
 import is.hi.hbv501g.demo.entity.User;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,4 +24,7 @@ public interface MembershipRepository extends JpaRepository<Membership, UUID> {
 
     // Find all memberships for a given user ID
     List<Membership> findByUser_Id(UUID userId);
+
+    // Find all memberships for a user with specific roles (e.g. OWNER, MODERATOR)
+    List<Membership> findByUser_IdAndRoleIn(UUID userId, List<MembershipRole> roles);
 }

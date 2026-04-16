@@ -8,7 +8,5 @@ public class Hugbunadarverkefni1Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Hugbunadarverkefni1Application.class, args);
-
     }
-
 }
